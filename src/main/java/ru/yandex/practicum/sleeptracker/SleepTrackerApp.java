@@ -12,7 +12,7 @@ import java.util.function.Function;
 public class SleepTrackerApp {
     static List<SleepSession> sessionList;
     static SleepTrackerApp stApp = new SleepTrackerApp();
-    private final List<Function<List<SleepSession>, SleepAnalysisResult>> ANALYTIC_FUNCTION = List.of(
+    private final List<Function<List<SleepSession>, SleepAnalysisResult>> analytic_function = List.of(
             new SessionCounter(),
             new MinSessionDuration(),
             new MaxSessionDuration(),
@@ -36,7 +36,7 @@ public class SleepTrackerApp {
     }
 
     private List<SleepAnalysisResult> analyzeSessions(List<SleepSession> session) {
-        return ANALYTIC_FUNCTION.stream()
+        return analytic_function.stream()
                 .map(function -> function.apply(session))
                 .toList();
     }
