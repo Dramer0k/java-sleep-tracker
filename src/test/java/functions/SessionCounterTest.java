@@ -6,8 +6,6 @@ import ru.yandex.practicum.sleeptracker.SleepSession;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class SessionCounterTest {
 
     SessionCounter sessionCounter = new SessionCounter();
