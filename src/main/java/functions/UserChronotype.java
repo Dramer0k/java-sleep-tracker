@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 public class UserChronotype implements Function<List<SleepSession>, SleepAnalysisResult> {
     Chronotype keyWithMaxValue;
+
     @Override
     public SleepAnalysisResult apply(List<SleepSession> sleepSessions) {
 
@@ -31,11 +32,11 @@ public class UserChronotype implements Function<List<SleepSession>, SleepAnalysi
                 }, Collectors.counting()
                 ));
 
-        Optional<? extends Map.Entry<? extends Constable, Long>> MaxEntry = map.entrySet().stream()
+        Optional<? extends Map.Entry<? extends Constable, Long>> maxEntry = map.entrySet().stream()
                 .max(Map.Entry.comparingByValue());
 
-        if (MaxEntry.isPresent()) {
-            keyWithMaxValue = (Chronotype) MaxEntry.get().getKey();
+        if (maxEntry.isPresent()) {
+            keyWithMaxValue = (Chronotype) maxEntry.get().getKey();
         } else {
            return new SleepAnalysisResult("Хронотип", "не определен");
         }
