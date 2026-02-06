@@ -6,9 +6,8 @@ import ru.yandex.practicum.sleeptracker.SleepSession;
 import java.time.Duration;
 import java.util.List;
 import java.util.OptionalDouble;
-import java.util.function.Function;
 
-public class AvgSessionDuration implements Function<List<SleepSession>, SleepAnalysisResult> {
+public class AvgSessionDuration implements DataAnalyzer {
     @Override
     public SleepAnalysisResult apply(List<SleepSession> sleepSessions) {
 

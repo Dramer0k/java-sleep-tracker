@@ -14,7 +14,7 @@ class UserChronotypeTest {
             new SleepSession("01.10.25 23:30;02.10.25 10:00;GOOD"),
             new SleepSession("02.10.25 23:40;03.10.25 11:00;NORMAL"),
             new SleepSession("03.10.25 23:00;04.10.25 04:00;BAD"),
-            new SleepSession("03.10.25 23:00;04.10.25 04:00;BAD")
+            new SleepSession("03.10.25 23:30;04.10.25 10:00;BAD")
     );
 
     @Test
@@ -25,6 +25,17 @@ class UserChronotypeTest {
     @Test
     void testUserChronotypeLARK() {
         Assertions.assertNotEquals(Chronotype.LARK, userChronotype.apply(sleepSessions).getResult());
+    }
+
+    @Test
+    void testUserChronotypeUndefinedChronotype() {
+        List<SleepSession> sleepSessions = List.of(
+                new SleepSession("01.10.25 23:30;02.10.25 10:00;GOOD"),
+                new SleepSession("02.10.25 23:30;03.10.25 10:00;GOOD"),
+                new SleepSession("03.10.25 21:00;04.10.25 06:00;BAD"),
+                new SleepSession("04.10.25 21:00;05.10.25 06:00;BAD")
+        );
+        Assertions.assertEquals(Chronotype.PIGEON, userChronotype.apply(sleepSessions).getResult());
     }
 
 }

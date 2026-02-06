@@ -72,6 +72,20 @@ public class SleepTrackerAppTest {
         long sleeplessSessionsCount = 0L;
         Assertions.assertEquals(sleeplessSessionsCount, sleeplessSessions.apply(sleepSessions).getResult());
         Assertions.assertNotEquals(sleeplessSessionsCount + 1, sleeplessSessions.apply(sleepSessions).getResult());
+        List<SleepSession> sleepSessionsNew = List.of(
+                new SleepSession("01.10.25 00:00;01.10.25 10:00;GOOD"),
+                new SleepSession("02.10.25 07:00;02.10.25 19:00;NORMAL"),
+                new SleepSession("03.10.25 23:00;04.10.25 04:00;BAD"),
+                new SleepSession("01.11.25 19:00;01.11.25 23:00;BAD")
+        );
+        Assertions.assertEquals( 30L, sleeplessSessions.apply(sleepSessionsNew).getResult());
+        List<SleepSession> sleepSessionsNew2 = List.of(
+                new SleepSession("01.10.25 23:00;02.10.25 02:00;GOOD"),
+                new SleepSession("02.10.25 07:00;02.10.25 19:00;NORMAL"),
+                new SleepSession("03.10.25 23:00;04.10.25 04:00;BAD"),
+                new SleepSession("01.11.25 19:00;01.11.25 23:00;BAD")
+        );
+        Assertions.assertEquals( 29L, sleeplessSessions.apply(sleepSessionsNew2).getResult());
     }
 
     @Test
@@ -79,5 +93,12 @@ public class SleepTrackerAppTest {
     void testUserChronotype() {
         Assertions.assertEquals(Chronotype.PIGEON, userChronotype.apply(sleepSessions).getResult());
         Assertions.assertNotEquals(Chronotype.LARK, userChronotype.apply(sleepSessions).getResult());
+        List<SleepSession> sleepSessions = List.of(
+                new SleepSession("01.10.25 23:30;02.10.25 10:00;GOOD"),
+                new SleepSession("02.10.25 23:30;03.10.25 10:00;GOOD"),
+                new SleepSession("03.10.25 21:00;04.10.25 06:00;BAD"),
+                new SleepSession("04.10.25 21:00;05.10.25 06:00;BAD")
+        );
+        Assertions.assertEquals(Chronotype.PIGEON, userChronotype.apply(sleepSessions).getResult());
     }
 }

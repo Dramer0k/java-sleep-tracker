@@ -6,9 +6,8 @@ import ru.yandex.practicum.sleeptracker.SleepSession;
 import java.time.Duration;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 
-public class MinSessionDuration implements Function<List<SleepSession>, SleepAnalysisResult> {
+public class MinSessionDuration implements DataAnalyzer {
     @Override
     public SleepAnalysisResult apply(List<SleepSession> sleepSessions) {
         Duration duration = sleepSessions.stream()

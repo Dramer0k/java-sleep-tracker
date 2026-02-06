@@ -7,12 +7,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.function.Function;
 
 public class SleepTrackerApp {
     static List<SleepSession> sessionList;
     static SleepTrackerApp stApp = new SleepTrackerApp();
-    private final List<Function<List<SleepSession>, SleepAnalysisResult>> analyticFunction = List.of(
+    private final List<DataAnalyzer> analyticFunction = List.of(
             new SessionCounter(),
             new MinSessionDuration(),
             new MaxSessionDuration(),

@@ -5,9 +5,8 @@ import ru.yandex.practicum.sleeptracker.SleepQuality;
 import ru.yandex.practicum.sleeptracker.SleepSession;
 
 import java.util.List;
-import java.util.function.Function;
 
-public class BadSleepSession implements Function<List<SleepSession>, SleepAnalysisResult> {
+public class BadSleepSession implements DataAnalyzer {
     @Override
     public SleepAnalysisResult apply(List<SleepSession> sleepSessions) {
 

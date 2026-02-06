@@ -3,20 +3,18 @@ package functions;
 import ru.yandex.practicum.sleeptracker.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.SleepSession;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 
-public class SleeplessSessions implements Function<List<SleepSession>, SleepAnalysisResult> {
+public class SleeplessSessions implements DataAnalyzer {
+    private static final LocalTime SLEEP_NIGHT_START = LocalTime.of(0, 0); //старт периода сонной ночи
+    private static final LocalTime SLEEP_NIGHT_FINISH = LocalTime.of(6, 0); //конец периода сонной ночи
+
     @Override
     public SleepAnalysisResult apply(List<SleepSession> sleepSessions) {
-
-        LocalTime sleepNightStart = LocalTime.of(0, 0); //старт периода сонной ночи
-        LocalTime sleepNightFinish = LocalTime.of(6, 0); //конец периода сонной ночи
-        long sleeplessNightCount; //Количество бессонных ночей за период
-
 
         if (sleepSessions == null || sleepSessions.isEmpty()) {
             return new SleepAnalysisResult("Количество бессонных ночей", 0);
@@ -27,30 +25,30 @@ public class SleeplessSessions implements Function<List<SleepSession>, SleepAnal
                  .sorted(Comparator.comparing(SleepSession::getStart))
                 .toList();
 
-        //получаем сколько дней длился период замеров
-        int period = Period.between(
-                sortedList.getFirst().getStart().toLocalDate(),
-                sortedList.getLast().getFinish().toLocalDate()
-                ).getDays();
+        final LocalDate startDate = sortedList.getFirst().getStart().toLocalDate();
+        final LocalDate endDate = sortedList.getLast().getFinish().toLocalDate();
 
-        long sleepNightCounter = sleepSessions.stream()
+        //получаем сколько дней длился период замеров
+        long period = ChronoUnit.DAYS.between(startDate, endDate);
+
+        long sleepNightCounter = sortedList.stream()
                 //фильтруем дни, когда сон приходил на период с 00:00 до 06:00 (сонные ночи)
-                .filter(nightSleep -> {
-                    if (nightSleep.getStart().toLocalDate().isBefore(nightSleep.getFinish().toLocalDate())) {
-                        return true;
-                    } else if (nightSleep.getStart().toLocalTime().isAfter(sleepNightStart) &&
-                            nightSleep.getStart().toLocalTime().isBefore(sleepNightFinish)) {
-                        return true;
-                    } else if (nightSleep.getFinish().toLocalTime().isAfter(sleepNightStart) &&
-                            nightSleep.getFinish().toLocalTime().isBefore(sleepNightFinish)) {
-                        return true;
-                    }
-                    return false;
-                })
+                .filter(this::filterSleepSession)
                 .count();
 
-        sleeplessNightCount = period - sleepNightCounter;
+        //Количество бессонных ночей за период
+        long sleeplessNightCount = period - sleepNightCounter;
 
         return new SleepAnalysisResult("Количество бессонных ночей", sleeplessNightCount);
+    }
+
+    public boolean filterSleepSession(SleepSession sleepSession) {
+        if (sleepSession.getStart().toLocalDate().isBefore(sleepSession.getFinish().toLocalDate())) {
+            return true;
+        } else if (sleepSession.getStart().toLocalTime().isAfter(SLEEP_NIGHT_START) &&
+                sleepSession.getStart().toLocalTime().isBefore(SLEEP_NIGHT_FINISH)) {
+            return true;
+        } else return sleepSession.getFinish().toLocalTime().isAfter(SLEEP_NIGHT_START) &&
+                sleepSession.getFinish().toLocalTime().isBefore(SLEEP_NIGHT_FINISH);
     }
 }

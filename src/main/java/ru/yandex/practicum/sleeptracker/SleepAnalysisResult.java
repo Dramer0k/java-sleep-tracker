@@ -9,10 +9,6 @@ public class SleepAnalysisResult {
         this.result = result;
     }
 
-    public String getFunctionTitle() {
-        return functionTitle;
-    }
-
     public Object getResult() {
         return result;
     }
