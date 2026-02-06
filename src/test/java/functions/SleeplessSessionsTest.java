@@ -42,7 +42,7 @@ class SleeplessSessionsTest {
                 new SleepSession("03.10.25 23:00;04.10.25 04:00;BAD"),
                 new SleepSession("01.11.25 19:00;01.11.25 23:00;BAD")
         );
-        Assertions.assertEquals( 29L, sleeplessSessions.apply(sleepSessionsNew).getResult());
+        Assertions.assertEquals(29L, sleeplessSessions.apply(sleepSessionsNew).getResult());
     }
 
     @Test
@@ -53,7 +53,7 @@ class SleeplessSessionsTest {
                 new SleepSession("03.10.25 23:00;04.10.25 04:00;BAD"),
                 new SleepSession("01.11.25 19:00;01.11.25 23:00;BAD")
         );
-        Assertions.assertEquals( 30L, sleeplessSessions.apply(sleepSessionsNew).getResult());
+        Assertions.assertEquals(30L, sleeplessSessions.apply(sleepSessionsNew).getResult());
     }
 
 }
