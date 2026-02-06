@@ -30,7 +30,7 @@ public class UserChronotype implements DataAnalyzer {
                 .max(Map.Entry.comparingByValue());
 
         if (maxEntry.isPresent()) {
-            if (Objects.equals(map.get(Chronotype.OWL), map.get(Chronotype.LARK))){
+            if (Objects.equals(map.get(Chronotype.OWL), map.get(Chronotype.LARK))) {
                 keyWithMaxValue = Chronotype.PIGEON;
             } else {
                 keyWithMaxValue = maxEntry.get().getKey();
